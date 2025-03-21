@@ -1,0 +1,22 @@
+# Use Node.js as the base image
+FROM node:18-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json, then install dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Copy all project files into the container
+COPY . .
+
+# Expose API port (5000) to allow external access
+EXPOSE 5000
+
+# Start the Express server
+CMD ["node", "server.js"]
+
+#Build & RUN
+docker build -t my-express-app .
+docker run -p 5000:5000 my-express-app
